@@ -42,7 +42,7 @@ namespace AspNet_lab6.Mvc.Controllers
         [HttpPost]
         public IActionResult WeatherForecastListView()
         {
-            var response = _weatherApiClient.GetFromJsonAsync<IEnumerable<WeatherForecastViewModel>>("/api/WeatherForecast")
+            var response = _weatherApiClient.GetFromJsonAsync<IEnumerable<WeatherForecastViewModel>>("/api/WeatherForecast?days=7")
                       .GetAwaiter()
                       .GetResult();
 
