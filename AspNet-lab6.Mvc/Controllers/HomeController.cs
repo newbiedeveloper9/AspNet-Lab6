@@ -15,10 +15,12 @@ namespace AspNet_lab6.Mvc.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly HttpClient _weatherApiClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory clientFactory)
         {
             _logger = logger;
+            _weatherApiClient = clientFactory.CreateClient("weatherapi");
         }
 
         public IActionResult Index()
@@ -40,9 +42,7 @@ namespace AspNet_lab6.Mvc.Controllers
         [HttpPost]
         public IActionResult WeatherForecastListView()
         {
-            var client = new HttpClient();
-            var response = client.GetFromJsonAsync<IEnumerable<WeatherForecastViewModel>>(
-                "https://localhost:44330/api/WeatherForecast")
+            var response = _weatherApiClient.GetFromJsonAsync<IEnumerable<WeatherForecastViewModel>>("/api/WeatherForecast")
                       .GetAwaiter()
                       .GetResult();
 
